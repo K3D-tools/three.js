@@ -14,16 +14,17 @@ function SpriteNodeMaterial() {
 
 	this.type = "SpriteNodeMaterial";
 
-};
+}
 
 SpriteNodeMaterial.prototype = Object.create( NodeMaterial.prototype );
 SpriteNodeMaterial.prototype.constructor = SpriteNodeMaterial;
 
-NodeUtils.addShortcuts( SpriteNodeMaterial.prototype, 'fragment', [ 
-	'color', 
-	'alpha', 
-	'transform', 
-	'spherical' 
+NodeUtils.addShortcuts( SpriteNodeMaterial.prototype, 'fragment', [
+	'color',
+	'alpha',
+	'mask',
+	'position',
+	'spherical'
 ] );
 
 export { SpriteNodeMaterial };

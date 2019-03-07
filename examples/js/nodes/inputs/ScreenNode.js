@@ -9,13 +9,13 @@ function ScreenNode( uv ) {
 
 	TextureNode.call( this, undefined, uv );
 
-};
+}
 
 ScreenNode.prototype = Object.create( TextureNode.prototype );
 ScreenNode.prototype.constructor = ScreenNode;
 ScreenNode.prototype.nodeType = "Screen";
 
-ScreenNode.prototype.isUnique = function () {
+ScreenNode.prototype.getUnique = function () {
 
 	return true;
 

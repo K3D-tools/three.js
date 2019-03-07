@@ -6,7 +6,7 @@ import { TempNode } from '../core/TempNode.js';
 import { FunctionNode } from '../core/FunctionNode.js';
 import { FloatNode } from '../inputs/FloatNode.js';
 import { PositionNode } from '../accessors/PositionNode.js';
- 
+
 function CameraNode( scope, camera ) {
 
 	TempNode.call( this, 'v3' );
@@ -14,33 +14,33 @@ function CameraNode( scope, camera ) {
 	this.setScope( scope || CameraNode.POSITION );
 	this.setCamera( camera );
 
-};
+}
 
-CameraNode.Nodes = (function() {
-	
+CameraNode.Nodes = ( function () {
+
 	var depthColor = new FunctionNode( [
 		"float depthColor( float mNear, float mFar ) {",
-		
+
 		"	#ifdef USE_LOGDEPTHBUF_EXT",
-		
+
 		"		float depth = gl_FragDepthEXT / gl_FragCoord.w;",
-		
+
 		"	#else",
-		
+
 		"		float depth = gl_FragCoord.z / gl_FragCoord.w;",
-		
+
 		"	#endif",
-		
+
 		"	return 1.0 - smoothstep( mNear, mFar, depth );",
-		
+
 		"}"
 	].join( "\n" ) );
-	
+
 	return {
 		depthColor: depthColor
 	};
-	
-})();
+
+} )();
 
 CameraNode.POSITION = 'position';
 CameraNode.DEPTH = 'depth';
@@ -92,7 +92,7 @@ CameraNode.prototype.getType = function ( builder ) {
 	switch ( this.scope ) {
 
 		case CameraNode.DEPTH:
-		
+
 			return 'f';
 
 	}
@@ -101,13 +101,13 @@ CameraNode.prototype.getType = function ( builder ) {
 
 };
 
-CameraNode.prototype.isUnique = function ( builder ) {
+CameraNode.prototype.getUnique = function ( builder ) {
 
 	switch ( this.scope ) {
 
 		case CameraNode.DEPTH:
 		case CameraNode.TO_VERTEX:
-		
+
 			return true;
 
 	}
@@ -116,12 +116,12 @@ CameraNode.prototype.isUnique = function ( builder ) {
 
 };
 
-CameraNode.prototype.isShared = function ( builder ) {
+CameraNode.prototype.getShared = function ( builder ) {
 
 	switch ( this.scope ) {
 
 		case CameraNode.POSITION:
-		
+
 			return false;
 
 	}
@@ -180,15 +180,15 @@ CameraNode.prototype.onUpdateFrame = function ( frame ) {
 };
 
 CameraNode.prototype.copy = function ( source ) {
-			
+
 	TempNode.prototype.copy.call( this, source );
-	
+
 	this.setScope( source.scope );
 
 	if ( source.camera ) {
-		
+
 		this.setCamera( source.camera );
-		
+
 	}
 
 	switch ( source.scope ) {
@@ -201,7 +201,7 @@ CameraNode.prototype.copy = function ( source ) {
 			break;
 
 	}
-	
+
 };
 
 CameraNode.prototype.toJSON = function ( meta ) {
